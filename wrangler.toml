@@ -1,0 +1,4 @@
+name = "la-chamba-download-api"
+main = "worker.js"
+compatibility_date = "2026-11-12"
+workers_dev = true
