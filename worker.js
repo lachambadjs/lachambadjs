@@ -51,6 +51,17 @@ export default {
       return new Response(null, { status: 204, headers: corsHeaders(origin) });
     }
 
+    if (url.pathname === "/api/diagnostic") {
+      return json({
+        worker: "la-chamba-download-api",
+        tokenBindingPresent: Boolean(env.GITHUB_RELEASE_TOKEN),
+        otherPossibleBindings: {
+          GITHUB_TOKEN: Boolean(env.GITHUB_TOKEN),
+          GH_TOKEN: Boolean(env.GH_TOKEN)
+        }
+      }, 200, origin);
+    }
+
     if (url.pathname !== "/api/app-update" && url.pathname !== "/") {
       return json({ error: "Ruta no encontrada." }, 404, origin);
     }
