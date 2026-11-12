@@ -128,7 +128,12 @@ export default {
       }, 200, origin);
     } catch (error) {
       console.error("app-update endpoint:", error);
-      return json({ error: "No se pudo consultar la versión más reciente." }, 502, origin);
+      const match = String(error?.message || "").match(/failed: (\d{3})/);
+      return json({
+        error: "No se pudo consultar la versión más reciente.",
+        githubStatus: match ? Number(match[1]) : null,
+        reason: match ? "github_api_rejected_request" : "network_or_response_error"
+      }, 502, origin);
     }
   },
 };
