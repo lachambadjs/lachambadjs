@@ -1,5 +1,5 @@
 const REPOSITORY = "jannyfuentes60-netizen/metodolachamba";
-const RELEASES_URL = \`https://api.github.com/repos/\${REPOSITORY}/releases/latest\`;
+const RELEASES_URL = `https://api.github.com/repos/${REPOSITORY}/releases/latest`;
 const ALLOWED_ORIGINS = new Set([
   "https://lachambadjs.github.io",
 ]);
@@ -35,7 +35,7 @@ function getGithubToken(env) {
 async function latestRelease(token) {
   const response = await fetch(RELEASES_URL, {
     headers: {
-      Authorization: \`Bearer \${token}\`,
+      Authorization: `Bearer ${token}`,
       Accept: "application/vnd.github+json",
       "X-GitHub-Api-Version": "2022-11-28",
       "User-Agent": "La-Chamba-Audio-Lab",
@@ -46,7 +46,7 @@ async function latestRelease(token) {
   if (!response.ok) {
     const detail = await response.text().catch(() => "");
     console.error("GitHub release lookup failed:", response.status, detail.slice(0, 500));
-    throw new Error(\`GitHub release lookup failed: \${response.status}\`);
+    throw new Error(`GitHub release lookup failed: ${response.status}`);
   }
 
   return response.json();
@@ -71,14 +71,14 @@ function getReleaseInfo(release, origin) {
     releaseNotes: String(release.body || ""),
     assetApiUrl: apk.url,
     assetSize: Number(apk.size) || null,
-    downloadUrl: \`\${origin}/api/app-update?download=1\`,
+    downloadUrl: `${origin}/api/app-update?download=1`,
   };
 }
 
 async function downloadApk(assetUrl, token) {
   return fetch(assetUrl, {
     headers: {
-      Authorization: \`Bearer \${token}\`,
+      Authorization: `Bearer ${token}`,
       Accept: "application/octet-stream",
       "X-GitHub-Api-Version": "2022-11-28",
       "User-Agent": "La-Chamba-Audio-Lab",
